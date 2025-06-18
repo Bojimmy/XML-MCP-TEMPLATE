@@ -31,15 +31,13 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime
 
 # MCP imports
-from mcp.server import Server
 from mcp.server.models import InitializationOptions
+from mcp.server import NotificationOptions, Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
-    CallToolResult,
-    ListToolsResult,
     TextContent,
-    Tool,
 )
+import mcp.types as types
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -55,14 +53,14 @@ SERVER_DESCRIPTION = "XML-MCP template server with Flask backend"
 
 # Flask server configuration
 FLASK_HOST = "127.0.0.1"
-FLASK_PORT = 5000
+FLASK_PORT = 5001  # Changed from 5000 to avoid macOS Control Center conflict
 FLASK_BASE_URL = f"http://{FLASK_HOST}:{FLASK_PORT}"
 
 # ============================================================================
 # MCP SERVER SETUP
 # ============================================================================
 
-app = Server(SERVER_NAME)
+server = Server(SERVER_NAME)
 
 
 # ============================================================================
@@ -95,11 +93,16 @@ class FlaskServerManager:
                 logger.info(f"Port {self.port} already in use - Flask server may already be running")
                 return True
             
-            # Start Flask server subprocess
+            # Start Flask server subprocess - use same Python executable as current process
+            import sys
+            python_path = sys.executable
             cmd = [
-                "python", 
+                python_path, 
                 str(self.base_dir / "run.py")
             ]
+            
+            logger.info(f"Using Python executable: {python_path}")
+            logger.info(f"Flask server command: {' '.join(cmd)}")
             
             env = {
                 **dict(os.environ),
@@ -320,8 +323,13 @@ class FlaskAPIClient:
     async def close(self):
         """Close the session"""
         if self.session:
-            await self.session.close()
-            self.session = None
+            try:
+                await self.session.close()
+                logger.info("✓ HTTP session closed successfully")
+            except Exception as e:
+                logger.warning(f"Error closing HTTP session: {e}")
+            finally:
+                self.session = None
 
 
 # ============================================================================
@@ -333,12 +341,11 @@ flask_manager = FlaskServerManager()
 flask_client = FlaskAPIClient()
 
 
-@app.list_tools()
-async def list_tools() -> ListToolsResult:
+@server.list_tools()
+async def handle_list_tools() -> List[types.Tool]:
     """Define available MCP tools"""
-    return ListToolsResult(
-        tools=[
-            Tool(
+    return [
+        types.Tool(
                 name="analyze_input",
                 description="Analyze input content and extract information",
                 inputSchema={
@@ -357,7 +364,7 @@ async def list_tools() -> ListToolsResult:
                     "required": ["content"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="generate_xml",
                 description="Generate XML output from analysis results",
                 inputSchema={
@@ -385,7 +392,7 @@ async def list_tools() -> ListToolsResult:
                     "required": ["analysis", "output_id"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="process_input",
                 description="Complete workflow: analyze input and generate XML",
                 inputSchema={
@@ -418,7 +425,7 @@ async def list_tools() -> ListToolsResult:
                     "required": ["content", "output_id"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="get_status",
                 description="Get processing status by ID",
                 inputSchema={
@@ -429,12 +436,12 @@ async def list_tools() -> ListToolsResult:
                     "required": ["processing_id"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="list_data",
                 description="List all saved data entries",
                 inputSchema={"type": "object", "properties": {}}
             ),
-            Tool(
+            types.Tool(
                 name="get_data",
                 description="Get data by ID",
                 inputSchema={
@@ -445,7 +452,7 @@ async def list_tools() -> ListToolsResult:
                     "required": ["data_id"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="delete_data",
                 description="Delete data by ID",
                 inputSchema={
@@ -456,22 +463,21 @@ async def list_tools() -> ListToolsResult:
                     "required": ["data_id"]
                 }
             ),
-            Tool(
+            types.Tool(
                 name="list_templates",
                 description="List available XML templates",
                 inputSchema={"type": "object", "properties": {}}
             ),
-            Tool(
+            types.Tool(
                 name="health_check",
                 description="Check Flask server health",
                 inputSchema={"type": "object", "properties": {}}
             )
         ]
-    )
 
 
-@app.call_tool()
-async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
+@server.call_tool()
+async def handle_call_tool(name: str, arguments: Dict[str, Any]) -> List[types.TextContent]:
     """Handle tool calls by delegating to Flask server"""
     try:
         if name == "analyze_input":
@@ -482,9 +488,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.analyze_input(content, input_type, options)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result["analysis"], indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result["analysis"], indent=2)
+                )]
             else:
                 raise Exception(result.get("error", "Analysis failed"))
         
@@ -497,9 +503,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.generate_xml(analysis, output_id, template, options)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=result["xml_output"])]
-                )
+                return [types.TextContent(
+                    type="text", text=result["xml_output"]
+                )]
             else:
                 raise Exception(result.get("error", "XML generation failed"))
         
@@ -513,9 +519,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.process_complete(content, output_id, input_type, template, options)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result, indent=2)
+                )]
             else:
                 raise Exception(result.get("error", "Processing failed"))
         
@@ -525,9 +531,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.get_status(processing_id)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result, indent=2)
+                )]
             else:
                 raise Exception(result.get("error", "Status check failed"))
         
@@ -535,9 +541,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.list_data()
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result["data"], indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result["data"], indent=2)
+                )]
             else:
                 raise Exception(result.get("error", "Data listing failed"))
         
@@ -547,9 +553,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.get_data(data_id)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result["data"], indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result["data"], indent=2)
+                )]
             else:
                 raise Exception(result.get("error", f"Data {data_id} not found"))
         
@@ -559,9 +565,9 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.delete_data(data_id)
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=result["message"])]
-                )
+                return [types.TextContent(
+                    type="text", text=result["message"]
+                )]
             else:
                 raise Exception(result.get("error", f"Failed to delete {data_id}"))
         
@@ -569,29 +575,30 @@ async def call_tool(name: str, arguments: Dict[str, Any]) -> CallToolResult:
             result = await flask_client.list_templates()
             
             if result.get("success"):
-                return CallToolResult(
-                    content=[TextContent(type="text", text=json.dumps(result["templates"], indent=2))]
-                )
+                return [types.TextContent(
+                    type="text", text=json.dumps(result["templates"], indent=2)
+                )]
             else:
                 raise Exception(result.get("error", "Template listing failed"))
         
         elif name == "health_check":
             result = await flask_client.health_check()
             
-            return CallToolResult(
-                content=[TextContent(type="text", text=json.dumps(result, indent=2))]
-            )
+            return [types.TextContent(
+                type="text", text=json.dumps(result, indent=2))]
         
         else:
-            return CallToolResult(
-                content=[TextContent(type="text", text=f"Unknown tool: {name}")]
-            )
+            return [types.TextContent(
+                type="text", text=f"Unknown tool: {name}")]
     
     except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
         logger.error(f"Error in {name}: {e}")
-        return CallToolResult(
-            content=[TextContent(type="text", text=f"Error: {str(e)}")]
-        )
+        logger.error(f"Full traceback: {error_details}")
+        return [types.TextContent(
+            type="text", text=f"Error in {name}: {str(e)}"
+        )]
 
 
 # ============================================================================
@@ -649,24 +656,56 @@ async def main():
             logger.info("✓ MCP server ready - both servers running successfully")
             logger.info("🎉 System ready for Claude integration!")
             
-            await app.run(
+            await server.run(
                 read_stream,
                 write_stream,
                 InitializationOptions(
                     server_name=SERVER_NAME,
                     server_version=SERVER_VERSION,
-                    capabilities=app.get_capabilities(),
+                    capabilities=server.get_capabilities(
+                        notification_options=NotificationOptions(),
+                        experimental_capabilities={},
+                    ),
                 ),
             )
     except KeyboardInterrupt:
         logger.info("Received interrupt signal")
     except Exception as e:
-        logger.error(f"MCP server error: {e}")
+        import traceback
+        logger.error(f"MCP server error: {type(e).__name__}: {e}")
+        logger.error(f"Full traceback: {traceback.format_exc()}")
+        
+        # Handle TaskGroup exceptions specifically
+        if hasattr(e, 'exceptions'):
+            logger.error("TaskGroup sub-exceptions:")
+            for i, exc in enumerate(e.exceptions):
+                logger.error(f"  {i+1}. {type(exc).__name__}: {exc}")
+        
+        # Handle ExceptionGroup (Python 3.11+)
+        if str(type(e)).find('ExceptionGroup') != -1:
+            logger.error("Exception group detected - this may be an asyncio TaskGroup error")
     finally:
         # Clean up
         logger.info("🛑 Shutting down servers...")
-        await flask_client.close()
-        flask_manager.stop_flask_server()
+        
+        # Give a moment for any pending requests to complete
+        try:
+            await asyncio.sleep(0.5)
+        except:
+            pass
+        
+        # Close HTTP client session
+        try:
+            await flask_client.close()
+        except Exception as e:
+            logger.warning(f"Error closing Flask client: {e}")
+        
+        # Stop Flask server
+        try:
+            flask_manager.stop_flask_server()
+        except Exception as e:
+            logger.warning(f"Error stopping Flask server: {e}")
+        
         logger.info("✓ All servers stopped - goodbye!")
 
 

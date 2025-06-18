@@ -1,0 +1,48 @@
+<TaskPacket id="test-task-packet-001" generated="2025-06-18T14:04:02.198357" template="task_packet">
+  <Metadata>
+    <ComplexityScore>20</ComplexityScore>
+    <EstimatedEffort>Very High (2+ weeks)</EstimatedEffort>
+  </Metadata>
+  <Tasks>
+    <Task id="task_1">
+      <Title>Analysis and Planning</Title>
+      <Priority>high</Priority>
+      <EstimatedHours>4</EstimatedHours>
+    </Task>
+    <Task id="task_2">
+      <Title>Implementation</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>8</EstimatedHours>
+    </Task>
+    <Task id="task_3">
+      <Title>Testing and Review</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>4</EstimatedHours>
+    </Task>
+    <Task id="task_4">
+      <Title>Process: # Product Requirements Document (PRD)</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>6</EstimatedHours>
+    </Task>
+    <Task id="task_5">
+      <Title>Process: ## Project: Smart Task Manager</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>6</EstimatedHours>
+    </Task>
+    <Task id="task_6">
+      <Title>Process: ### Overview</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>6</EstimatedHours>
+    </Task>
+    <Task id="task_7">
+      <Title>Process: ### Business Objectives</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>6</EstimatedHours>
+    </Task>
+    <Task id="task_8">
+      <Title>Process: ### Core Features</Title>
+      <Priority>medium</Priority>
+      <EstimatedHours>6</EstimatedHours>
+    </Task>
+  </Tasks>
+</TaskPacket>

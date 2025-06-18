@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(lsof:*)",
+      "Bash(pip install:*)",
+      "Bash(timeout 10s python3:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }

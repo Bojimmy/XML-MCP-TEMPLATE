@@ -62,7 +62,7 @@ def test_integrated_startup():
         
         for attempt in range(max_attempts):
             try:
-                response = requests.get("http://localhost:5000/health", timeout=2)
+                response = requests.get("http://localhost:5001/health", timeout=2)
                 if response.status_code == 200:
                     health_data = response.json()
                     print(f"✓ Flask server health check passed: {health_data.get('status')}")
@@ -90,7 +90,7 @@ def test_integrated_startup():
             }
             
             response = requests.post(
-                "http://localhost:5000/api/analyze",
+                "http://localhost:5001/api/analyze",
                 json=test_data,
                 timeout=10
             )
@@ -120,7 +120,7 @@ def test_integrated_startup():
         print("🔍 Testing templates endpoint...")
         
         try:
-            response = requests.get("http://localhost:5000/api/templates", timeout=5)
+            response = requests.get("http://localhost:5001/api/templates", timeout=5)
             if response.status_code == 200:
                 result = response.json()
                 if result.get("success"):

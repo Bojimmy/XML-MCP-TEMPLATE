@@ -1,415 +1,288 @@
-# XML-MCP Template with Dual Server Architecture
+# XML-MCP Template 🚀
 
-A reusable template for creating MCP (Model Context Protocol) servers that process inputs and generate structured XML outputs using a dual-server architecture.
+**A powerful XML-centric Model Context Protocol (MCP) server template for structured document processing and task generation**
 
-## Architecture Overview
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![MCP Compatible](https://img.shields.io/badge/MCP-Compatible-green.svg)](https://modelcontextprotocol.io/)
 
-This template uses an **integrated dual-server architecture** that provides:
+## 🎯 **XML-First Architecture**
 
-1. **MCP Server** (`server.py`) - Handles Claude integration and launches Flask backend
-2. **Flask Server** (`run.py`) - Provides REST API for XML processing and web UI integration
+This template is **fundamentally built around XML** as its core processing paradigm:
 
-### Benefits
-- **Single Command Startup**: Just run `python server.py` - Flask launches automatically
-- **Integrated Lifecycle**: MCP server manages Flask server startup/shutdown
-- **Web Integration**: REST API endpoints available for future web UI development
-- **Separation of Concerns**: MCP protocol handling separated from business logic
-- **Graceful Shutdown**: Both servers stop cleanly with proper signal handling
+- **🔄 XML Input/Output** - Process and generate structured XML documents
+- **📋 XML Schema Validation** - Ensure data integrity with defined schemas  
+- **🏗️ XML Template Engine** - Multiple XML output formats (task packets, analysis reports)
+- **🔍 XML Query & Transform** - Built-in XML parsing and manipulation
+- **💾 XML Storage** - Persistent XML-based data interchange
 
-## Directory Structure
+Perfect for systems requiring **structured, validated, and interoperable** document processing!
 
-```
-XML-MCP-TEMPLATE/
-├── server.py              # MCP server (connects to Flask backend)
-├── run.py                 # Flask server entry point
-├── requirements.txt       # Python dependencies
-├── README.md              # This documentation
-├── app/                   # Flask application
-│   ├── __init__.py        # Flask app factory
-│   ├── routes/            # API route definitions
-│   │   ├── __init__.py
-│   │   └── api.py         # REST API endpoints
-│   └── processors/        # XML processing logic
-│       ├── __init__.py
-│       ├── xml_processor.py    # Core XML processing
-│       └── data_manager.py     # Data storage management
-├── schemas/               # XML schema definitions
-│   └── template-schema.xml
-├── examples/              # Sample inputs and outputs
-│   ├── sample-input.md
-│   └── sample-output.xml
-└── storage/               # Data storage (auto-created)
-    └── data.json          # TinyDB database file
-```
+## ✨ **Features**
 
-## Quick Start
+### 🚀 **Integrated Dual-Server Architecture**
+- **Single Command Startup** - `python server.py` launches everything
+- **MCP Server** - Handles Claude integration with 9 powerful tools
+- **Flask Backend** - REST API for XML processing and web integration
+- **Auto-Lifecycle Management** - Seamless startup, health monitoring, graceful shutdown
 
-### 1. Install Dependencies
+### 🔧 **9 MCP Tools for Claude**
+| Tool | Purpose | XML Integration |
+|------|---------|----------------|
+| `analyze_input` | Extract structure from documents | XML metadata extraction |
+| `generate_xml` | Create XML from analysis | Template-driven XML generation |
+| `process_input` | Complete analyze→XML workflow | End-to-end XML pipeline |
+| `get_status` | Check processing status | XML status documents |
+| `list_data` | Browse stored entries | XML data inventory |
+| `get_data` | Retrieve specific data | XML document retrieval |
+| `delete_data` | Remove data entries | XML record management |
+| `list_templates` | Show XML templates | XML schema catalog |
+| `health_check` | System health status | XML health reports |
+
+### 📊 **XML Templates**
+- **`default`** - Generic XML output with analysis results
+- **`task_packet`** - Structured project breakdown with tasks, timelines, risks
+- **`analysis_report`** - Detailed document analysis with metrics and recommendations
+
+## 🚀 **Quick Start**
+
+### 1. **Installation**
 ```bash
+git clone https://github.com/Bojimmy/XML-MCP-TEMPLATE.git
+cd XML-MCP-TEMPLATE
 pip install -r requirements.txt
 ```
 
-### 2. Start the System (Single Command)
+### 2. **Launch (Single Command!)**
 ```bash
 python server.py
 ```
 
-**That's it!** The MCP server will automatically:
-- 🚀 Launch the Flask backend server on http://localhost:5000
-- 🔗 Start the MCP server for Claude integration  
-- ✅ Verify both servers are running properly
-- 🎉 System ready for Claude integration!
+**That's it!** The system automatically:
+- 🚀 Launches Flask backend on `http://localhost:5001`
+- 🔗 Starts MCP server for Claude integration
+- ✅ Verifies both servers are running
+- 🎉 Ready for XML processing!
 
-### 3. What You'll See
-```
-INFO - Starting xml-mcp-template v1.0.0
-INFO - 🚀 Launching integrated MCP + Flask server architecture
-INFO - 📦 Starting Flask backend server...
-INFO - ✓ Flask server started (PID: 12345)
-INFO - ✓ Flask server is ready to accept connections
-INFO - ✓ Flask server running on http://127.0.0.1:5000
-INFO - ✓ Flask server health check passed
-INFO - 🔗 Starting MCP server...
-INFO - ✓ MCP server ready - both servers running successfully
-INFO - 🎉 System ready for Claude integration!
+### 3. **Test with Mock Data**
+```bash
+python test_with_mock_data.py
 ```
 
-### 4. Available Tools
-The MCP server provides these tools for Claude:
-- `analyze_input` - Analyze content and extract information
-- `generate_xml` - Generate XML from analysis results  
-- `process_input` - Complete workflow (analyze + generate XML)
-- `get_status` - Check processing status by ID
-- `list_data` - List all saved data entries
-- `get_data` - Retrieve specific data by ID
-- `delete_data` - Delete data by ID
-- `list_templates` - List available XML templates
-- `health_check` - Check Flask server health
+## 📁 **Project Structure**
 
-## MCP Tools Reference
+```
+XML-MCP-TEMPLATE/
+├── 🗂️ Core Files
+│   ├── server.py              # MCP server (auto-launches Flask)
+│   ├── run.py                 # Flask server entry point  
+│   └── requirements.txt       # Dependencies
+├── 🏗️ Application Logic
+│   └── app/
+│       ├── __init__.py        # Flask app factory
+│       ├── routes/api.py      # REST API endpoints
+│       └── processors/        # XML processing engine
+│           ├── xml_processor.py    # Core XML generation
+│           └── data_manager.py     # Storage management
+├── 📋 XML Infrastructure  
+│   └── schemas/               # XML schema definitions
+│       └── template-schema.xml
+├── 🎯 Examples & Testing
+│   ├── examples/              # Sample documents & XML outputs
+│   │   ├── sample-prd.md           # Product Requirements Doc
+│   │   ├── sample-task-packet.xml  # Generated task breakdown
+│   │   └── sample-analysis-report.xml # Document analysis
+│   ├── test_with_mock_data.py      # Demo script
+│   └── test_startup.py             # Integration tests
+└── 💾 Data Storage
+    └── storage/data.json           # Persistent XML data
+```
 
-### analyze_input
-Analyze input content and extract structured information.
+## 🔗 **Claude Desktop Integration**
 
-**Parameters:**
-- `content` (string, required): Content to analyze
-- `input_type` (string, optional): Type of input (text, markdown, json, etc.)
-- `options` (object, optional): Additional processing options
+Add to your Claude Desktop MCP configuration:
 
-### generate_xml
-Generate XML output from analysis results.
-
-**Parameters:**
-- `analysis` (object, required): Analysis results from analyze_input
-- `output_id` (string, required): Unique identifier for the output
-- `template` (string, optional): XML template (default, task_packet, analysis_report)
-- `options` (object, optional): Additional generation options
-
-### process_input
-Complete workflow that analyzes input and generates XML in one step.
-
-**Parameters:**
-- `content` (string, required): Content to process
-- `input_type` (string, optional): Type of input
-- `output_id` (string, required): Unique identifier for the output
-- `template` (string, optional): XML template to use
-- `options` (object, optional): Processing options
-
-### Data Management Tools
-- `get_status` - Get processing status by ID
-- `list_data` - List all saved data entries
-- `get_data` - Retrieve data by ID
-- `delete_data` - Delete data by ID
-
-### System Tools
-- `list_templates` - List available XML templates
-- `health_check` - Check Flask server health
-
-## Flask API Endpoints
-
-The Flask server provides REST API endpoints that can be used directly or via web interfaces:
-
-### POST /api/analyze
-Analyze input content
 ```json
 {
-  "content": "text to analyze",
-  "input_type": "markdown",
-  "options": {}
-}
-```
-
-### POST /api/generate
-Generate XML from analysis
-```json
-{
-  "analysis": {...},
-  "output_id": "unique-id",
-  "template": "default",
-  "options": {}
-}
-```
-
-### POST /api/process
-Complete workflow (analyze + generate)
-```json
-{
-  "content": "text to process",
-  "input_type": "markdown", 
-  "output_id": "unique-id",
-  "template": "task_packet",
-  "options": {}
-}
-```
-
-### GET /api/status/{processing_id}
-Get processing status
-
-### GET /api/data
-List all data entries
-
-### GET /api/data/{data_id}
-Get specific data entry
-
-### DELETE /api/data/{data_id}
-Delete data entry
-
-### GET /api/templates
-List available templates
-
-### GET /health
-Health check endpoint
-
-## Customization Guide
-
-### 1. Server Configuration
-Edit configuration in both servers:
-
-**MCP Server (`server.py`):**
-```python
-SERVER_NAME = "your-custom-server"
-SERVER_VERSION = "1.0.0"
-FLASK_HOST = "127.0.0.1"  # Change if Flask runs elsewhere
-FLASK_PORT = 5000
-```
-
-**Flask Server (`run.py`):**
-```python
-# Environment variables or modify run.py
-FLASK_HOST = "127.0.0.1"
-FLASK_PORT = 5000
-FLASK_DEBUG = False
-```
-
-### 2. Custom XML Processing
-Extend the `XMLProcessor` class in `app/processors/xml_processor.py`:
-
-```python
-class CustomXMLProcessor(XMLProcessor):
-    def analyze_input(self, content: str, input_type: str, options: Dict[str, Any] = None):
-        # Call parent method
-        analysis = super().analyze_input(content, input_type, options)
-        
-        # Add custom analysis
-        analysis["custom_metrics"] = self._calculate_custom_metrics(content)
-        return analysis
-    
-    def _calculate_custom_metrics(self, content: str):
-        # Your custom analysis logic
-        return {"score": len(content) * 0.1}
-```
-
-### 3. Custom API Endpoints
-Add new routes in `app/routes/api.py`:
-
-```python
-@api_bp.route('/custom-analysis', methods=['POST'])
-def custom_analysis():
-    data = request.get_json()
-    # Your custom endpoint logic
-    return jsonify({"success": True, "result": "custom processing"})
-```
-
-### 4. Custom MCP Tools
-Add new tools to `server.py`:
-
-```python
-Tool(
-    name="custom_tool",
-    description="Your custom tool description",
-    inputSchema={
-        "type": "object",
-        "properties": {
-            "param1": {"type": "string", "description": "Parameter description"}
-        },
-        "required": ["param1"]
+  "mcpServers": {
+    "xml-mcp-template": {
+      "command": "/usr/bin/python3",
+      "args": ["/path/to/XML-MCP-TEMPLATE/server.py"]
     }
-)
+  }
+}
 ```
 
-Then handle it in `call_tool()`:
-```python
-elif name == "custom_tool":
-    result = await flask_client._make_request("POST", "/api/custom-analysis", arguments)
-    return CallToolResult(content=[TextContent(type="text", text=json.dumps(result))])
-```
+## 🛠️ **REST API Endpoints**
 
-### 5. XML Templates
-Add new templates by extending the `templates` dictionary in `xml_processor.py`:
+The Flask backend provides XML-focused REST endpoints:
+
+| Endpoint | Method | Purpose | XML Output |
+|----------|--------|---------|------------|
+| `/api/analyze` | POST | Analyze document structure | XML metadata |
+| `/api/generate` | POST | Generate XML from analysis | Templated XML |
+| `/api/process` | POST | Complete analyze→XML workflow | Full XML pipeline |
+| `/api/templates` | GET | List available XML templates | XML template catalog |
+| `/api/data` | GET | List stored XML documents | XML inventory |
+| `/health` | GET | System health check | XML status report |
+
+## 🎨 **Customization Guide**
+
+### **1. Add Custom XML Templates**
 
 ```python
+# In xml_processor.py
 self.templates = {
     'default': 'template-schema.xml',
     'task_packet': 'taskpacket-schema.xml', 
     'analysis_report': 'analysis-schema.xml',
-    'custom_template': 'custom-schema.xml'  # Add your template
+    'custom_template': 'your-schema.xml'  # Add here
 }
 ```
 
-### 6. Data Storage
-Extend the `DataManager` class for custom storage needs:
+### **2. Create Custom MCP Tools**
 
 ```python
-class CustomDataManager(DataManager):
-    def store_with_metadata(self, data_id: str, data: Dict[str, Any], metadata: Dict[str, Any]):
-        # Add custom metadata handling
-        data["custom_metadata"] = metadata
-        return self.store_result(data_id, data)
+# In server.py - Add to list_tools()
+types.Tool(
+    name="custom_xml_tool",
+    description="Your custom XML processing tool",
+    inputSchema={
+        "type": "object",
+        "properties": {
+            "xml_input": {"type": "string", "description": "XML to process"}
+        }
+    }
+)
 ```
 
-## Use Cases
+### **3. Extend XML Processing**
 
-This dual-server template can be adapted for:
-
-### Project Planning & Management
-- Analyze PRDs and requirements documents
-- Generate task breakdowns and work packages
-- Create XML-based project plans
-- Track project progress and status
-
-### Document Analysis & Processing
-- Process various document formats (Markdown, JSON, XML, etc.)
-- Extract key information and metadata
-- Generate structured analysis reports
-- Convert documents between formats
-
-### Workflow Automation
-- Parse workflow definitions
-- Generate execution plans
-- Track process states and status
-- Create approval workflows
-
-### Content Management
-- Analyze content for structure and complexity
-- Generate content templates
-- Create content taxonomies
-- Process content pipelines
-
-## Example Usage
-
-### Via MCP Tools (with Claude)
 ```python
-# Complete workflow example
-result = await call_tool("process_input", {
-    "content": "# Project Requirements\n\n## Features\n- User authentication\n- Data processing\n- Report generation",
-    "input_type": "markdown", 
-    "output_id": "project-001",
-    "template": "task_packet"
-})
-
-# Check processing status
-status = await call_tool("get_status", {
-    "processing_id": "project-001"
-})
+# In xml_processor.py
+class CustomXMLProcessor(XMLProcessor):
+    def custom_xml_transform(self, xml_content: str) -> str:
+        # Your XML transformation logic
+        return transformed_xml
 ```
 
-### Via REST API (for web integration)
-```bash
-# Start the integrated system
-python server.py &        # Launches both MCP + Flask servers
+## 📊 **Use Cases**
 
-# Test Flask API directly (while MCP server is running)
-curl -X POST http://localhost:5000/api/process \
-  -H "Content-Type: application/json" \
-  -d '{
-    "content": "# Sample Document\nThis is test content.",
-    "input_type": "markdown",
-    "output_id": "test-001",
-    "template": "default"
-  }'
+### **🏢 Enterprise Document Processing**
+- Convert requirements documents to XML task breakdowns
+- Generate project plans with XML-based workflows
+- Create compliance-ready XML audit trails
+
+### **🔄 System Integration**
+- XML-based data exchange between systems
+- Structured document transformation pipelines
+- API-first XML processing for web applications
+
+### **📋 Project Management**
+- PRD analysis and XML task packet generation
+- Risk assessment with XML reporting
+- Timeline and milestone tracking in XML format
+
+### **🤖 AI-Powered Document Analysis**
+- Claude integration for intelligent XML generation
+- Automated document structure extraction
+- Smart XML template selection based on content
+
+## 🧪 **Testing & Examples**
+
+### **Sample Data Included:**
+- 📝 **Product Requirements Document** (`sample-prd.md`) - Complete PRD for a task management app
+- 📦 **Generated Task Packet** (`sample-task-packet.xml`) - Structured project breakdown
+- 📊 **Analysis Report** (`sample-analysis-report.xml`) - Detailed document analysis
+
+### **Run Tests:**
+```bash
+# Test integrated startup
+python test_startup.py
+
+# Test with realistic data
+python test_with_mock_data.py
+
+# Manual API testing
+curl http://localhost:5001/health
 ```
 
-## Production Deployment
+## ⚙️ **Configuration**
 
-### Flask Server (Production)
-```bash
-# Install production server
-pip install gunicorn
-
-# Run with Gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 "app:create_app()"
-
-# Or with environment configuration
-export FLASK_HOST=0.0.0.0
-export FLASK_PORT=5000
-export FLASK_DEBUG=False
-python run.py
+### **Server Settings**
+```python
+# server.py
+SERVER_NAME = "xml-mcp-template"
+FLASK_HOST = "127.0.0.1"
+FLASK_PORT = 5001  # Avoids macOS Control Center conflict
 ```
 
-### Environment Variables
-```bash
-# Flask configuration
-export FLASK_HOST=127.0.0.1
-export FLASK_PORT=5000
-export FLASK_DEBUG=False
-export SECRET_KEY=your-secret-key
-
-# MCP server will automatically detect Flask server location
+### **XML Processing Options**
+```python
+# xml_processor.py  
+XML_VALIDATION = True      # Enable XML schema validation
+XML_PRETTY_PRINT = True    # Format XML output
+XML_ENCODING = "UTF-8"     # XML encoding standard
 ```
 
-## Development & Testing
+## 🚨 **Troubleshooting**
 
-### Running Tests
+### **Common Issues:**
+
+**"Flask server not available"**
+- Check port 5001 availability: `lsof -i :5001`
+- Restart: `python server.py`
+
+**"ModuleNotFoundError: tinydb"**
+- Install dependencies: `pip install -r requirements.txt`
+
+**XML validation errors**
+- Verify XML schemas in `schemas/` directory
+- Check XML template syntax
+
+### **Debug Mode:**
 ```bash
-# Install test dependencies
-pip install pytest pytest-asyncio
-
-# Run tests (when implemented)
-pytest tests/
-```
-
-### Development Mode
-```bash
-# Start in debug mode (Flask will run in debug mode)
 export FLASK_DEBUG=True
 python server.py
 ```
 
-### Adding Custom Features
-1. **Flask Backend**: Add processing logic in `app/processors/`
-2. **API Endpoints**: Add routes in `app/routes/api.py`
-3. **MCP Tools**: Add tools in `server.py`
-4. **Schemas**: Update XML schemas in `schemas/`
-5. **Templates**: Add XML templates for different output types
+## 🤝 **Contributing**
 
-## Troubleshooting
+1. Fork the repository
+2. Create feature branch: `git checkout -b feature/xml-enhancement`
+3. Add your XML processing improvements
+4. Test with mock data: `python test_with_mock_data.py`
+5. Submit pull request
 
-### Common Issues
+## 📄 **License**
 
-**"Flask server not available"**
-- The MCP server should start Flask automatically
-- Check if port 5000 is available: `lsof -i :5000`
-- Try stopping and restarting: `python server.py`
-- Verify FLASK_HOST and FLASK_PORT configuration
+MIT License - see [LICENSE](LICENSE) file for details.
 
-**Import errors**
-- Install all dependencies: `pip install -r requirements.txt`
-- Check Python version compatibility (Python 3.8+)
+## 🙋 **Support**
 
-**XML generation errors**
-- Verify lxml installation: `pip install lxml`
-- Check XML schema files in `schemas/` directory
+- 📚 **Documentation**: Check the `examples/` directory for sample implementations
+- 🐛 **Issues**: Report bugs via GitHub Issues
+- 💡 **Features**: Suggest XML processing enhancements
+- 🧪 **Testing**: Use `test_with_mock_data.py` for validation
 
-## License
+## 🌟 **Why XML-First?**
 
-This template is provided as-is for adaptation to your specific use cases.
+- **🏗️ Structure** - Hierarchical, validated data organization
+- **🔄 Interoperability** - Universal data exchange format
+- **📋 Standards** - Well-established schemas and validation
+- **🎯 Templates** - Consistent, reusable output formats
+- **🔍 Queryable** - XPath, XSLT, and XML processing tools
+- **📊 Metadata Rich** - Preserve context and relationships
+
+Perfect for **enterprise systems**, **compliance requirements**, and **structured data workflows**!
+
+---
+
+**Ready to transform your documents into structured XML workflows? 🚀**
+
+```bash
+git clone https://github.com/Bojimmy/XML-MCP-TEMPLATE.git
+cd XML-MCP-TEMPLATE
+python server.py
+# Your XML-powered MCP server is ready! 🎉
+```

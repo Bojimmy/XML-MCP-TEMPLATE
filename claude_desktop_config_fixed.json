@@ -1,0 +1,76 @@
+{
+  "serverConfig": {
+    "command": "/bin/sh",
+    "args": [
+      "-c"
+    ]
+  },
+  "mcpServers": {
+    "desktop-commander": {
+      "command": "npx",
+      "args": [
+        "@wonderwhy-er/desktop-commander@latest"
+      ]
+    },
+    "webscraper-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/WebScraper-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/WebScraper-MCP"
+    },
+    "memorynote-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/MemoryNote-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/MemoryNote-MCP"
+    },
+    "mathsolver-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/MathSolver-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/MathSolver-MCP"
+    },
+    "codeeditor-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/CodeEditor-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/CodeEditor-MCP"
+    },
+    "projectmanager-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/ProjectManager-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/ProjectManager-MCP"
+    },
+    "vectormemory-mcp": {
+      "command": "python3",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/VectorMemory-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/VectorMemory-MCP"
+    },
+    "biastoolkit-mcp": {
+      "command": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/BiasToolkit-MCP/venv/bin/python",
+      "args": [
+        "/Users/bobdallavia/GitHubRepos/MCP-Cluster/BiasToolkit-MCP/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/GitHubRepos/MCP-Cluster/BiasToolkit-MCP"
+    },
+    "xml-mcp-template": {
+      "command": "/Users/bobdallavia/miniconda3/bin/python3",
+      "args": [
+        "/Users/bobdallavia/XML-MCP-TEMPLATE/server.py"
+      ],
+      "cwd": "/Users/bobdallavia/XML-MCP-TEMPLATE",
+      "env": {
+        "FLASK_HOST": "127.0.0.1",
+        "FLASK_PORT": "5001"
+      }
+    }
+  }
+}

@@ -51,7 +51,7 @@ tinydb>=4.8.0
 #       "args": ["/path/to/XML-MCP-TEMPLATE/server.py"],
 #       "env": {
 #         "FLASK_HOST": "127.0.0.1",
-#         "FLASK_PORT": "5000"
+#         "FLASK_PORT": "5001"
 #       }
 #     }
 #   }
@@ -79,7 +79,7 @@ tinydb>=4.8.0
 #       "args": ["/Users/bobdallavia/XML-MCP-TEMPLATE/server.py"],
 #       "env": {
 #         "FLASK_HOST": "127.0.0.1",
-#         "FLASK_PORT": "5000"
+#         "FLASK_PORT": "5001"
 #       }
 #     }
 #   }
