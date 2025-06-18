@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Output id="example-001" generated="2024-01-01T12:00:00">
+  <Metadata>
+    <InputType>markdown</InputType>
+    <WordCount>95</WordCount>
+  </Metadata>
+  <Analysis>
+    <ContentLength>1247</ContentLength>
+    <BasicStats>{'lines': 25, 'characters': 1247, 'words': 95, 'paragraphs': 8}</BasicStats>
+    <Structure>{'sections': ['# Sample Input Document', '## Features', '## Usage Example', '## Customization Points'], 'lists': ['- Markdown formatting', '- Lists and bullet points', '- Headers and sections', '- Plain text content']}</Structure>
+  </Analysis>
+</Output>

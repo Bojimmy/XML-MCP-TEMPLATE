@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  
+  <!-- Generic XML Schema for MCP Template Output -->
+  
+  <xs:element name="Output">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Metadata" type="MetadataType"/>
+        <xs:element name="Analysis" type="AnalysisType"/>
+        <xs:element name="CustomSection" type="CustomSectionType" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:string" use="required"/>
+      <xs:attribute name="generated" type="xs:dateTime" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="MetadataType">
+    <xs:sequence>
+      <xs:element name="InputType" type="xs:string"/>
+      <xs:element name="WordCount" type="xs:integer"/>
+      <xs:element name="Version" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="AnalysisType">
+    <xs:sequence>
+      <xs:element name="ContentLength" type="xs:integer"/>
+      <xs:element name="BasicStats" type="xs:string"/>
+      <xs:element name="Structure" type="xs:string"/>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="CustomSectionType">
+    <xs:sequence>
+      <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  
+</xs:schema>

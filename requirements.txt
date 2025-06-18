@@ -1,0 +1,91 @@
+# XML-MCP Template with Dual Server Architecture
+
+# Core MCP framework
+mcp>=1.0.0
+
+# Flask web server
+Flask>=2.3.0
+Flask-CORS>=4.0.0
+
+# HTTP client for MCP-Flask communication
+aiohttp>=3.8.0
+
+# XML processing
+lxml>=4.9.0
+
+# Data storage
+tinydb>=4.8.0
+
+# Optional dependencies (uncomment as needed):
+# requests>=2.31.0          # Additional HTTP requests
+# pydantic>=2.0.0          # Data validation
+# python-dateutil>=2.8.0   # Date parsing
+# beautifulsoup4>=4.12.0   # HTML parsing
+# markdown>=3.4.0          # Markdown processing
+# jinja2>=3.1.0            # Template rendering
+# PyYAML>=6.0              # YAML processing
+# gunicorn>=21.0.0         # Production WSGI server
+# pytest>=7.0.0           # Testing framework
+# pytest-asyncio>=0.21.0  # Async testing
+
+# =============================================================================
+# CLAUDE DESKTOP CONFIGURATION
+# =============================================================================
+# 
+# Add this to your Claude Desktop config.json file:
+# 
+# Location:
+# - macOS: ~/Library/Application Support/Claude/claude_desktop_config.json
+# - Windows: %APPDATA%/Claude/claude_desktop_config.json
+# - Linux: ~/.config/Claude/claude_desktop_config.json
+#
+# Configuration snippet to add:
+#
+# IMPORTANT: Use the full path to Python (not just "python")
+# Find your Python path with: which python3
+#
+# {
+#   "mcpServers": {
+#     "xml-mcp-template": {
+#       "command": "/usr/bin/python3",
+#       "args": ["/path/to/XML-MCP-TEMPLATE/server.py"],
+#       "env": {
+#         "FLASK_HOST": "127.0.0.1",
+#         "FLASK_PORT": "5000"
+#       }
+#     }
+#   }
+# }
+#
+# Replace "/path/to/XML-MCP-TEMPLATE/" with the actual path to this directory.
+# Replace "/usr/bin/python3" with your actual Python path.
+#
+# To find your Python path, run in terminal:
+#   which python3
+#   # or
+#   which python
+#
+# Common Python paths:
+# - /usr/bin/python3 (system Python)
+# - /opt/homebrew/bin/python3 (Homebrew on Apple Silicon)
+# - /usr/local/bin/python3 (Homebrew on Intel Mac)
+# - /Users/yourname/.pyenv/shims/python3 (pyenv)
+#
+# Example full config.json:
+# {
+#   "mcpServers": {
+#     "xml-mcp-template": {
+#       "command": "/usr/bin/python3",
+#       "args": ["/Users/bobdallavia/XML-MCP-TEMPLATE/server.py"],
+#       "env": {
+#         "FLASK_HOST": "127.0.0.1",
+#         "FLASK_PORT": "5000"
+#       }
+#     }
+#   }
+# }
+#
+# After adding this configuration:
+# 1. Restart Claude Desktop
+# 2. The XML-MCP tools will be available in Claude
+# 3. Both MCP and Flask servers will start automatically when Claude connects
